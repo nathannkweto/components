@@ -1,0 +1,33 @@
+<body>
+  <div id="auth-widget" class="mdc-card" style="padding: 1rem; max-width: 300px; margin: auto;">
+    <h2 class="mdc-typography--headline6">Sign In</h2>
+
+    <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-leading-icon" style="width:100%;">
+      <input type="email" id="email" class="mdc-text-field__input" required>
+      <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+          <span class="mdc-floating-label" id="email-label">Email</span>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+      </span>
+    </label>
+
+    <label class="mdc-text-field mdc-text-field--outlined" style="width:100%; margin-top:1rem;">
+      <input type="password" id="password" class="mdc-text-field__input" required>
+      <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+          <span class="mdc-floating-label" id="password-label">Password</span>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+      </span>
+    </label>
+
+    <button class="mdc-button mdc-button--raised" id="login-btn" style="margin-top:1rem; width:100%;">
+      <span class="mdc-button__label">Sign In</span>
+    </button>
+  </div>
+
+  <script type="module" src="src/widget/main.ts"></script>
+</body>

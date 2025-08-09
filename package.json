@@ -1,0 +1,23 @@
+{
+  "name": "auth-widget",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:widget": "vite --config vite.config.ts --mode widget src/widget",
+    "build:widget": "vite build --mode widget",
+    "build:loader": "vite build --mode loader",
+    "build": "npm run build:widget && npm run build:loader",
+    "preview:widget": "vite preview --port 5174 src/widget"
+  },
+  "dependencies": {
+    "@material/button": "^14.0.0",
+    "@material/form-field": "^14.0.0",
+    "@material/ripple": "^14.0.0",
+    "@material/textfield": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
+  }
+}
