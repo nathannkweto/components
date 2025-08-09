@@ -82,10 +82,13 @@ declare global {
     if (dataFont) opts.fontFamily = dataFont;
     if (dataMode === 'register' || dataMode === 'login') opts.mode = dataMode as Mode;
 
+    const parentOrigin = window.location.origin;
+
     const params = {
       primaryColor: opts.primaryColor,
       fontFamily: opts.fontFamily,
-      mode: opts.mode
+      mode: opts.mode,
+      parentOrigin, 
     };
     const src = opts.widgetUrl + '?' + serializeParams(params);
     const iframe = createIframe(src, opts.height);

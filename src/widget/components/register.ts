@@ -23,7 +23,11 @@ export function renderRegister(container: HTMLElement, onToggle: () => void) {
   const btn = container.querySelector<HTMLButtonElement>('#submit')!;
   const status = container.querySelector<HTMLParagraphElement>('#status')!;
   const toggleLink = container.querySelector<HTMLAnchorElement>('#toggle-link')!;
-
+  function getParentOriginFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('parentOrigin') || '';
+  }
+  const parentOrigin = getParentOriginFromUrl() || '';
   btn.addEventListener('click', async () => {
     status.textContent = 'Registering...';
     try {
@@ -34,7 +38,7 @@ export function renderRegister(container: HTMLElement, onToggle: () => void) {
         type: 'auth.success',
         token: res.token,
         user: res.user
-      }, '*');
+      }, parentOrigin);
     } catch (err: any) {
       status.textContent = err?.message || 'Registration failed';
     }

@@ -21,6 +21,12 @@ export function renderLogin(container: HTMLElement, onToggle: () => void) {
   const btn = container.querySelector<HTMLButtonElement>('#submit')!;
   const status = container.querySelector<HTMLParagraphElement>('#status')!;
   const toggleLink = container.querySelector<HTMLAnchorElement>('#toggle-link')!;
+  
+  function getParentOriginFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('parentOrigin') || '';
+}
+  const parentOrigin = getParentOriginFromUrl() || '';
 
   btn.addEventListener('click', async () => {
     status.textContent = 'Signing in...';
@@ -33,7 +39,8 @@ export function renderLogin(container: HTMLElement, onToggle: () => void) {
         token: res.token,
         user: res.user
       };
-      window.parent.postMessage(payload, '*');
+
+      window.parent.postMessage(payload, parentOrigin);
     } catch (err: any) {
       status.textContent = err?.message || 'Login failed';
     }
