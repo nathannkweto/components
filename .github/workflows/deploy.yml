@@ -16,16 +16,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22.18.0'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build widget
-        run: npm run build
+        run: VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}npm run build
 
       - name: Deploy to S3
-        uses: aws-actions/s3-sync@v2
+        uses: aws-actions/aws-s3-sync@v2
         with:
           bucket: ${{ secrets.AWS_S3_BUCKET }}
           region: ${{ secrets.AWS_REGION }}
@@ -33,6 +33,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          VITE_WIDGET_BASE_URL: ${{ secrets.VITE_WIDGET_BASE_URL }}
 
       - name: Invalidate CloudFront cache
         uses: chetan/invalidate-cloudfront-action@v2

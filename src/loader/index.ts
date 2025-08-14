@@ -20,7 +20,7 @@ declare global {
   const DEFAULTS: Required<InitOptions> = {
     containerId: 'auth-widget',
     el: null as any,
-    widgetUrl: import.meta.env.VITE_WIDGET_BASE_URL ? import.meta.env.VITE_WIDGET_BASE_URL + '/widget.html' : 'http://localhost:3000/widget.html',
+    widgetUrl: import.meta.env.VITE_WIDGET_BASE_URL ? import.meta.env.VITE_WIDGET_BASE_URL + '/index.html' : 'http://localhost/widget/index.html',
     primaryColor: '#FF6633',
     fontFamily: 'Arial, sans-serif',
     mode: 'login',
@@ -88,10 +88,16 @@ declare global {
       primaryColor: opts.primaryColor,
       fontFamily: opts.fontFamily,
       mode: opts.mode,
-      parentOrigin, 
+      parentOrigin,
     };
     const src = opts.widgetUrl + '?' + serializeParams(params);
     const iframe = createIframe(src, opts.height);
+
+    container.style.display = 'flex';
+    container.style.justifyContent = 'center';
+    container.style.alignItems = 'center';
+    container.style.minHeight = '100vh';
+
     container.appendChild(iframe);
 
     const off = listenForMessages(iframe, (msg) => {
@@ -124,4 +130,4 @@ declare global {
 
 })(window);
 
-export {};
+export { };

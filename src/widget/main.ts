@@ -17,18 +17,32 @@ const mount = document.getElementById('forms')!;
 
 let mode = (params.get('mode') || 'login') as 'login' | 'register';
 
+function clearMount(node: HTMLElement) {
+  // remove all children without using innerHTML
+  while (node.firstChild) {
+    node.removeChild(node.firstChild);
+  }
+}
+
 function render() {
-  mount.innerHTML = '';
+  clearMount(mount);
+
   if (mode === 'login') {
-    renderLogin(mount, () => {
-      mode = 'register';
-      render();
-    });
+    renderLogin(
+      mount,
+      () => {
+        mode = 'register';
+        render();
+      }
+    );
   } else {
-    renderRegister(mount, () => {
-      mode = 'login';
-      render();
-    });
+    renderRegister(
+      mount,
+      () => {
+        mode = 'login';
+        render();
+      }
+    );
   }
 }
 

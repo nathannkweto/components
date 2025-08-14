@@ -1,53 +1,41 @@
-// src/widget/components/login.ts
 import { login as apiLogin } from '../api';
+import { createForm } from './ui/form';
 
 export function renderLogin(container: HTMLElement, onToggle: () => void) {
-  container.innerHTML = `
-    <h2>Sign in</h2>
-    <input class="input" id="email" placeholder="Email" />
-    <input class="input" id="password" type="password" placeholder="Password" />
-    <button id="submit" class="mdc-button">Sign In</button>
-    <p id="status"></p>
-    <p style="font-size: 0.9em; margin-top: 16px;">
-      Have no account? 
-      <a href="#" id="toggle-link" style="color: var(--primary-color); cursor: pointer; text-decoration: underline;">
-        Create account
-      </a>
-    </p>
-  `;
-
-  const email = container.querySelector<HTMLInputElement>('#email')!;
-  const password = container.querySelector<HTMLInputElement>('#password')!;
-  const btn = container.querySelector<HTMLButtonElement>('#submit')!;
-  const status = container.querySelector<HTMLParagraphElement>('#status')!;
-  const toggleLink = container.querySelector<HTMLAnchorElement>('#toggle-link')!;
-  
   function getParentOriginFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('parentOrigin') || '';
-}
+    const params = new URLSearchParams(window.location.search);
+    return params.get('parentOrigin') || '';
+  }
   const parentOrigin = getParentOriginFromUrl() || '';
 
-  btn.addEventListener('click', async () => {
-    status.textContent = 'Signing in...';
-    try {
-      const res = await apiLogin({ email: email.value, password: password.value });
-      status.textContent = 'Success';
+  const formNode = createForm({
+    title: 'Sign in',
+    fields: [
+      { id: 'email', placeholder: 'Email' },
+      { id: 'password', type: 'password', placeholder: 'Password' }
+    ],
+    submitText: 'Sign In',
+    submitInProgressText: 'Signing in...',
+    submitSuccessText: 'Success',
+    toggleText: 'Have no account?',
+    toggleLinkText: 'Create account',
+    onToggle,
+    onSubmit: async (values) => {
+      const res = await apiLogin({
+        email: values.email,
+        password: values.password
+      });
 
-      const payload = {
+      window.parent.postMessage({
         type: 'auth.success',
         token: res.token,
         user: res.user
-      };
+      }, parentOrigin);
 
-      window.parent.postMessage(payload, parentOrigin);
-    } catch (err: any) {
-      status.textContent = err?.message || 'Login failed';
+      return res;
     }
   });
 
-  toggleLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    onToggle();
-  });
+  while (container.firstChild) container.removeChild(container.firstChild);
+  container.appendChild(formNode);
 }

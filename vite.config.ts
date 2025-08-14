@@ -5,6 +5,7 @@ export default defineConfig(({ mode }) => {
   if (mode === 'widget') {
     return {
       root: path.resolve(__dirname, 'src/widget'),
+      base: './',
       build: {
         outDir: path.resolve(__dirname, 'dist/widget'),
         rollupOptions: {

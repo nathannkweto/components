@@ -1,5 +1,5 @@
 // src/widget/api.ts
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 async function handleRes(res: Response) {
   const content = await res.json().catch(() => ({}));
@@ -8,7 +8,7 @@ async function handleRes(res: Response) {
 }
 
 export async function login(payload: { email: string; password: string; }) {
-  const res = await fetch(`${API_BASE}/auth/login`, {
+  const res = await fetch(`${API_BASE}/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -18,7 +18,7 @@ export async function login(payload: { email: string; password: string; }) {
 }
 
 export async function register(payload: { name: string; email: string; password: string; }) {
-  const res = await fetch(`${API_BASE}/auth/register`, {
+  const res = await fetch(`${API_BASE}/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -28,7 +28,7 @@ export async function register(payload: { name: string; email: string; password:
 }
 
 export async function logout() {
-  const res = await fetch(`${API_BASE}/auth/logout`, {
+  const res = await fetch(`${API_BASE}/logout`, {
     method: 'POST',
     credentials: 'include'
   });
